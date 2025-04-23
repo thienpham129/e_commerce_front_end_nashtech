@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
-import { getProductById } from "../../../service/ProductService";
+import { getAverageRatingByProductId, getProductById } from "../../../service/ProductService";
+import RenderStars from "../../common/product/RenderStar";
 
 const ProductDetails = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
+    const [averageRatings, setAverageRatings] = useState(0);
 
     useEffect(() => {
-        getProductById(productId).then((resposne) => {
-            setProduct(resposne.data);
+        getProductById(productId).then((response) => {
+            setProduct(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+
+        getAverageRatingByProductId(productId).then((response) => {
+            setAverageRatings(response.data);
         }).catch(error => {
             console.log(error);
         });
@@ -37,6 +45,10 @@ const ProductDetails = () => {
                         </p>
                         <p className="text-gray-700 mb-2">
                             <strong>Số lượng còn:</strong> {product.quantity}
+                        </p>
+                        <p className="text-gray-700 mb-2">
+                            <strong>Đánh giá trung bình:</strong>
+                            <RenderStars rating={averageRatings} />
                         </p>
                     </div>
                 </div>

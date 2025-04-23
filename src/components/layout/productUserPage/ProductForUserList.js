@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getProductByCategory, listProducts } from "../../../service/ProductService";
+import { getProductByCategory, getfeaturedProducts, listProducts } from "../../../service/ProductService";
 import { Link } from "react-router-dom";
 import { listCategories } from "../../../service/CategoryService";
 
@@ -10,7 +10,8 @@ const ProductForUserList = () => {
     useEffect(() => {
         getAllProducts();
         getAllCategories();
-    }, [])
+        getfeaturedProducts();
+    }, []);
 
     const getAllProducts = () => {
         listProducts().then((response) => {
@@ -18,7 +19,7 @@ const ProductForUserList = () => {
             console.log(response.data);
         }).catch(error => {
             console.log(error);
-        })
+        });
     }
 
     const getAllCategories = () => {
@@ -27,7 +28,7 @@ const ProductForUserList = () => {
             console.log(response.data);
         }).catch(error => {
             console.log(error);
-        })
+        });
     }
 
     const handleCategoryClick = (categoryId) => {
@@ -38,8 +39,16 @@ const ProductForUserList = () => {
                 setProducts(response.data)
             }).catch(error => {
                 console.log(error);
-            })
-        }
+            });
+        };
+    };
+
+    const handleFeaturedClick = () => {
+        getfeaturedProducts().then((response) => {
+            setProducts(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     return (
@@ -48,6 +57,9 @@ const ProductForUserList = () => {
             <div className="d-flex flex-wrap gap-2 mb-4 justify-content-center">
                 <button className="btn btn-outline-primary" onClick={() => handleCategoryClick(0)}>
                     All
+                </button>
+                <button className="btn btn-outline-primary" onClick={() => handleFeaturedClick(0)}>
+                    Featured
                 </button>
                 {categories.map(category => (
                     <button key={category.categoryId}
