@@ -7,30 +7,17 @@ const ProductDetails = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [averageRatings, setAverageRatings] = useState(0);
-    const [averageRatings, setAverageRatings] = useState(0);
-
     useEffect(() => {
-        getProductById(productId).then((response) => {
-            setProduct(response.data);
-        }).catch(error => {
-            console.log(error);
-        });
+        // Lấy chi tiết sản phẩm
+        getProductById(productId)
+            .then((res) => setProduct(res.data))
+            .catch((err) => console.error(err));
 
-        getAverageRatingByProductId(productId).then((response) => {
-            setAverageRatings(response.data);
-        getProductById(productId).then((response) => {
-            setProduct(response.data);
-        }).catch(error => {
-            console.log(error);
-        });
-
-        getAverageRatingByProductId(productId).then((response) => {
-            setAverageRatings(response.data);
-        }).catch(error => {
-            console.log(error);
-        });
+        // Lấy điểm đánh giá trung bình
+        getAverageRatingByProductId(productId)
+            .then((res) => setAverageRatings(res.data))
+            .catch((err) => console.error(err));
     }, [productId]);
-
     if (!product) return <p>Loading...</p>
 
     return (
@@ -54,10 +41,6 @@ const ProductDetails = () => {
                         </p>
                         <p className="text-gray-700 mb-2">
                             <strong>Số lượng còn:</strong> {product.quantity}
-                        </p>
-                        <p className="text-gray-700 mb-2">
-                            <strong>Đánh giá trung bình:</strong>
-                            <RenderStars rating={averageRatings} />
                         </p>
                         <p className="text-gray-700 mb-2">
                             <strong>Đánh giá trung bình:</strong>
