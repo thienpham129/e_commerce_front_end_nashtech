@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getProductByCategory, getfeaturedProducts, listProducts } from "../../../service/ProductService";
+import { getProductByCategory, getfeaturedProducts, getfeaturedProducts, listProducts } from "../../../service/ProductService";
 import { Link } from "react-router-dom";
 import { listCategories } from "../../../service/CategoryService";
 import Header from "../../common/header/Header";
@@ -12,7 +12,8 @@ const ProductForUserList = () => {
         getAllProducts();
         getAllCategories();
         getfeaturedProducts();
-    }, []);
+        getfeaturedProducts();
+    }, []);;
 
     const getAllProducts = () => {
         listProducts().then((response) => {
@@ -20,7 +21,7 @@ const ProductForUserList = () => {
             console.log(response.data);
         }).catch(error => {
             console.log(error);
-        });
+        });;
     }
 
     const getAllCategories = () => {
@@ -29,7 +30,7 @@ const ProductForUserList = () => {
             console.log(response.data);
         }).catch(error => {
             console.log(error);
-        });
+        });;
     }
 
     const handleCategoryClick = (categoryId) => {
@@ -40,6 +41,16 @@ const ProductForUserList = () => {
                 setProducts(response.data)
             }).catch(error => {
                 console.log(error);
+            });
+        };
+    };
+
+    const handleFeaturedClick = () => {
+        getfeaturedProducts().then((response) => {
+            setProducts(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
             });
         };
     };
