@@ -1,7 +1,7 @@
-import axios from "axios";
+import axiosClient from "../axios/axiosClient";
 
 const CATEGORY_PUBLIC_API_URL = "http://localhost:8080/categories/public";
 
 export const listCategories = () => {
-    return axios.get(CATEGORY_PUBLIC_API_URL);
+    return axiosClient.get(CATEGORY_PUBLIC_API_URL);
 }
