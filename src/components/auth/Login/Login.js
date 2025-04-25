@@ -16,10 +16,11 @@ const Login = () => {
             const res = await signIn(form);
             console.log(res.data);  // Kiểm tra xem dữ liệu có đầy đủ không
 
-            const { token, userName, roles } = res.data.response;
+            const { token, userName, roles, userId } = res.data.response;
             localStorage.setItem("token", token);
             localStorage.setItem("roles", JSON.stringify(roles))
             localStorage.setItem("userName", userName);
+            localStorage.setItem("userId", userId);
             navigate("/user/products");
         } catch (err) {
             setMessage(
