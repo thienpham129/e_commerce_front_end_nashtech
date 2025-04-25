@@ -2,8 +2,8 @@ import axiosClient from "../axios/axiosClient";
 
 const PRODUCT_PUBLIC_REST_API_URL = 'http://localhost:8080/products/public';
 
-export const listProducts = () => {
-    return axiosClient.get(PRODUCT_PUBLIC_REST_API_URL);
+export const listProducts = (page = 0, size = 6) => {
+    return axiosClient.get(`${PRODUCT_PUBLIC_REST_API_URL}?page=${page}&size=${size}`);
 }
 
 export const getProductById = (productId) => {

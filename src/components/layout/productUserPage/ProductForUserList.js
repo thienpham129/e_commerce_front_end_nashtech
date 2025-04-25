@@ -3,13 +3,16 @@ import { getProductByCategory, getfeaturedProducts, listProducts } from "../../.
 import { Link } from "react-router-dom";
 import { listCategories } from "../../../service/CategoryService";
 import Header from "../../common/header/Header";
+import ProductPagination from "../../common/product/ProductPagination";
 
 const ProductForUserList = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCateogories] = useState([]);
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const pageSize = 6;
 
     useEffect(() => {
-        getAllProducts();
         getAllCategories();
         getfeaturedProducts();
     }, []);;
@@ -22,6 +25,26 @@ const ProductForUserList = () => {
             console.log(error);
         });;
     }
+
+    useEffect(() => {
+        getPaginatedProducts();
+    }, [page])
+
+    const getPaginatedProducts = async () => {
+        try {
+            const res = await listProducts(page, pageSize);
+            setProducts(res.data.content);
+            setTotalPages(res.data.totalPages);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const handlePageClick = (newPage) => {
+        if (newPage >= 0 && newPage < totalPages) {
+            setPage(newPage);
+        }
+    };
 
     const getAllCategories = () => {
         listCategories().then((response) => {
@@ -96,6 +119,7 @@ const ProductForUserList = () => {
                         </div>
                     ))}
                 </div>
+                <ProductPagination page={page} totalPages={totalPages} handlePageClick={handlePageClick} />
             </div >
         </>
     )
